@@ -9,12 +9,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @EnableWebSecurity
 @Configuration
@@ -25,11 +28,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
-        httpSecurity.csrf(csrf->csrf.disable());
-        httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
-        httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        return httpSecurity.build();
+        return httpSecurity.csrf(csrf->csrf.disable())
+                .authorizeHttpRequests(request->request.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
 
 //    @Bean
@@ -54,10 +57,10 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationProvider getAuthenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        return daoAuthenticationProvider;
+    DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+    daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+    daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+    return daoAuthenticationProvider;
     }
 
 }

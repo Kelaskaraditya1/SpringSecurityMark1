@@ -1,30 +1,32 @@
 package com.StarkIndustries.SpringSecurityMark1.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Table(name = "Users")
 public class Users {
+
     @Id
     private int userId;
+
+    @Column(unique = true,nullable = false)
     private String username;
+
     private String password;
 
-    public Users(int userId,String username,String password){
-        this.userId=userId;
-        this.username=username;
-        this.password=password;
+    public Users(int userId, String username, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
     }
 
-    public Users(String username,String password){
-        this.username=username;
-        this.password=password;
+    public Users(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public Users(){
-
+    public Users() {
     }
 
     public int getUserId() {
@@ -52,7 +54,7 @@ public class Users {
     }
 
     @Override
-    public String toString() {
+    public String   toString() {
         return "Users{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +

@@ -3,16 +3,16 @@ package com.StarkIndustries.SpringSecurityMark1.Model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class UserDetailsImplementation implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
     private Users users;
-
-    public UserDetailsImplementation(Users users){
+    public UserPrincipal(Users users){
         this.users=users;
     }
 
